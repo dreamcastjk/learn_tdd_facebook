@@ -25,3 +25,11 @@ Run development server
 php artisan serve
 ```
 
+# Front-end
+node v15
+
+```shell
+npm install
+npm run watch
+```
+
