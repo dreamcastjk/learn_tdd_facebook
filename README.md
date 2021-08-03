@@ -7,3 +7,21 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+# Back-end
+### php >= 8.0
+
+```shell
+cp .env.example .env
+```
+Set your database connection params
+
+```shell
+php artisan migrate:fresh --seed
+php artisan key:generate
+```
+
+Run development server
+```shell
+php artisan serve
+```
+
