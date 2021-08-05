@@ -1,15 +1,18 @@
 <template>
-    <div>
-        Start
-        <router-view>
-
-        </router-view>
+    <div class="flex flex-col flex-1 h-screen overflow-y-hidden">
+        <Nav></Nav>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
+import Nav from './Nav';
+
 export default {
-    name: "App"
+    name: "App",
+    components: {
+        Nav
+    }
 }
 </script>
 
