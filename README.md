@@ -33,3 +33,14 @@ npm install
 npm run watch
 ```
 
+# Tests
+Run all tests
+```shell
+php artisan test
+```
+
+Run specific test method
+```shell
+php artisan test --filter <test_method_name>
+```
+
