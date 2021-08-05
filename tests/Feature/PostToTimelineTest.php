@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
 class PostToTimelineTest extends TestCase
 {
@@ -44,6 +43,18 @@ class PostToTimelineTest extends TestCase
                     'type' => 'posts',
                     'post_id' => $post->id,
                     'attributes' => [
+                        'posted_by' => [
+                            'data' => [
+                                'type' => 'users',
+                                'user_id' => $user->id,
+                                'attributes' => [
+                                    'name' => $user->name,
+                                ],
+                            ],
+                            'links' => [
+                                'self' => url('/users/'.$user->id),
+                            ]
+                        ],
                         'body' => 'Testing Body'
                     ],
                 ],
