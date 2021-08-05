@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Post;
 use App\Http\Resources\PostResource;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Collections\PostCollection;
@@ -23,6 +22,6 @@ class PostController extends Controller
 
     public function index(): JsonResource
     {
-        return new PostCollection(Post::paginate());
+        return new PostCollection(request()->user()->posts);
     }
 }
