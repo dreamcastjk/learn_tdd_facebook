@@ -12,6 +12,8 @@ class Post extends Model
 
     protected $guarded = [];
 
+    protected $perPage = 5;
+
     /**
      * Current user of the post.
      *
