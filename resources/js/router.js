@@ -1,5 +1,8 @@
 import  Vue from 'vue';
+
 import Start from "./views/Start";
+import NewsFeed from "./views/NewsFeed";
+
 import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
@@ -9,7 +12,7 @@ export default new VueRouter({
 
     routes: [
         {
-            path: '/', name: 'home', component: Start,
+            path: '/', name: 'home', component: NewsFeed,
         }
     ]
 });
