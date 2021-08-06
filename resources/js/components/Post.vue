@@ -6,12 +6,12 @@
                     <img class="w-8 h-8 object-cover rounded-full" src="https://sun9-79.userapi.com/impg/wxyHa5uJKvMR7M_9yUkJ1qf_XNvqe7sTAngCkg/UBKZyI0qMeQ.jpg?size=1080x716&quality=96&sign=aa02f491b34630242011f9daa329a95a&type=album" alt="profile image for user">
                 </div>
                 <div class="ml-6">
-                    <div class="text-sm font-bold">Name User</div>
+                    <div class="text-sm font-bold">{{ post.data.attributes.posted_by.data.attributes.name }}</div>
                     <div class="text-sm text-gray-600">12 mins</div>
                 </div>
             </div>
             <div class="mt-4">
-                <p>Not having fun at all.</p>
+                <p>{{ post.data.attributes.body }}</p>
             </div>
         </div>
         <div class="w-full">
@@ -43,7 +43,11 @@
 
 <script>
 export default {
-    name: "Post"
+    name: "Post",
+
+    props: [
+        'post'
+    ]
 }
 </script>
 
