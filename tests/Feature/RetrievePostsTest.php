@@ -20,7 +20,7 @@ class RetrievePostsTest extends TestCase
 
         $posts = Post::factory()->count(2)->create(['user_id' => $user->id]);
 
-        $response = $this->get('/api/posts');
+        $response = $this->get(route('posts.index'));
 
         $response->assertStatus(200)
             ->assertJson([
@@ -61,7 +61,7 @@ class RetrievePostsTest extends TestCase
 
         $posts = Post::factory()->create();
 
-        $response = $this->get('/api/posts');
+        $response = $this->get(route('posts.index'));
 
         $response->assertStatus(200)
             ->assertExactJson([
