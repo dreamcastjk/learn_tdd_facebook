@@ -30,10 +30,11 @@ export default {
         axios.get('/api/posts')
             .then(res => {
                 this.posts = res.data;
-                this.loading = false;
             })
             .catch(error => {
                 console.log('Unable to fetch posts');
+            })
+            .finally(() => {
                 this.loading = false;
             });
     }
