@@ -38498,7 +38498,14 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(1),
+      _vm.post.data.attributes.image
+        ? _c("div", { staticClass: "w-full" }, [
+            _c("img", {
+              staticClass: "w-full",
+              attrs: { src: _vm.post.data.attributes.image, alt: "post image" }
+            })
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",
@@ -38527,7 +38534,7 @@ var render = function() {
             _c("p", [_vm._v("Jane Smith and 137 others")])
           ]),
           _vm._v(" "),
-          _vm._m(2)
+          _vm._m(1)
         ]
       ),
       _vm._v(" "),
@@ -38611,21 +38618,6 @@ var staticRenderFns = [
           src:
             "https://sun9-79.userapi.com/impg/wxyHa5uJKvMR7M_9yUkJ1qf_XNvqe7sTAngCkg/UBKZyI0qMeQ.jpg?size=1080x716&quality=96&sign=aa02f491b34630242011f9daa329a95a&type=album",
           alt: "profile image for user"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-full" }, [
-      _c("img", {
-        staticClass: "w-full",
-        attrs: {
-          src:
-            "https://thumbs.dreamstime.com/b/aerial-view-lago-antorno-dolomites-lake-mountain-landscape-alps-peak-misurina-cortina-di-ampezzo-italy-reflected-103752677.jpg",
-          alt: "post image"
         }
       })
     ])

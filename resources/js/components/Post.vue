@@ -14,8 +14,8 @@
                 <p>{{ post.data.attributes.body }}</p>
             </div>
         </div>
-        <div class="w-full">
-            <img class="w-full" src="https://thumbs.dreamstime.com/b/aerial-view-lago-antorno-dolomites-lake-mountain-landscape-alps-peak-misurina-cortina-di-ampezzo-italy-reflected-103752677.jpg" alt="post image">
+        <div class="w-full" v-if="post.data.attributes.image">
+            <img class="w-full" :src="post.data.attributes.image" alt="post image">
         </div>
 
         <div class="px-4 pt-2 flex justify-between text-gray-700 text-sm">
