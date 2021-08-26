@@ -1,6 +1,8 @@
 <template>
     <div class="flex flex-col items-center">
-        <div class="relative mb-8">
+        <p v-if="userLoading">User loading...</p>
+
+        <div v-else class="relative mb-8">
             <div class="w-100 h-64 overflow-hidden">
                 <img class="object-cover w-full" src="https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="users avatar">
             </div>
@@ -14,7 +16,7 @@
             </div>
         </div>
 
-        <p v-if="loading">Posts loading...</p>
+        <p v-if="postLoading">Posts loading...</p>
 
         <Post v-else v-for="post in posts.data" :key="post.data.post_id" :post="post" />
 
