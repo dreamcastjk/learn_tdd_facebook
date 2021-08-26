@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -50,5 +51,18 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function friends(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'friends',
+            'friend_id',
+            'user_id'
+        );
     }
 }
