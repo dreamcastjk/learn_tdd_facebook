@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\Friend;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Friend;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FriendsTest extends TestCase
 {
@@ -20,7 +20,7 @@ class FriendsTest extends TestCase
         $this->actingAs($user = User::factory()->create(), 'api');
         $userThatSendFriendRequest = User::factory()->create();
 
-        $response = $this->post('/api/friend-request', [
+        $response = $this->post(route('friend-request.store'), [
             'friend_id' => $userThatSendFriendRequest->id,
         ])->assertStatus(200);
 
@@ -51,7 +51,7 @@ class FriendsTest extends TestCase
     {
         $this->actingAs($user = User::factory()->create(), 'api');
 
-        $response = $this->post('/api/friend-request', [
+        $response = $this->post(route('friend-request.store'), [
             'friend_id' => 123,
         ])->assertStatus(404);
 
@@ -63,6 +63,44 @@ class FriendsTest extends TestCase
                 'title' => 'User Not Found',
                 'detail' => 'Unable to locate the user with the given information',
             ],
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function friend_request_can_be_accepted()
+    {
+        $this->actingAs($user = User::factory()->create(), 'api');
+        $userThatSendFriendRequest = User::factory()->create();
+        $this->post(route('friend-request.store'), [
+            'friend_id' => $userThatSendFriendRequest->id,
+        ])->assertStatus(200);
+
+        $response = $this->actingAs($userThatSendFriendRequest, 'api')
+            ->post(route('friend-request-response.store'), [
+                'user_id' => $user->id,
+                'status' => 1,
+            ])
+            ->assertStatus(200);
+
+        $friendRequest = Friend::first();
+
+        $this->assertNotNull($friendRequest->confirmed_at);
+        $this->assertInstanceOf(Carbon::class, $friendRequest->confirmed_at);
+        $this->assertEquals(now()->startOfSecond(), $friendRequest->confirmed_at);
+        $this->assertEquals(1, $friendRequest->status);
+        $response->assertJson([
+            'data' => [
+                'type' => 'friend-request',
+                'friend_request_id' => $friendRequest->id,
+                'attributes' => [
+                    'confirmed_at' => $friendRequest->confirmed_at->diffForHumans(),
+                ],
+            ],
+            'links' => [
+                'self' => url('/users/'.$userThatSendFriendRequest->id),
+            ]
         ]);
     }
 }
