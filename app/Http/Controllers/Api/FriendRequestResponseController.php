@@ -27,7 +27,7 @@ class FriendRequestResponseController extends Controller
             throw new FriendRequestNotFoundException();
         }
 
-        $friendRequest->update(array_merge($request, ['confirmed_at' => now()]));
+        $friendRequest->update(array_merge($request->validated(), ['confirmed_at' => now()]));
 
         return new FriendResource($friendRequest);
     }
