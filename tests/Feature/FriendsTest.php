@@ -253,4 +253,71 @@ class FriendsTest extends TestCase
                 ],
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function friend_requests_can_be_ignored()
+    {
+        $this->actingAs($user = User::factory()->create(), 'api');
+        $userThatSendFriendRequest = User::factory()->create();
+        $this->post(route('friend-request.store'), [
+            'friend_id' => $userThatSendFriendRequest->id,
+        ])->assertStatus(200);
+
+        $response = $this->actingAs($userThatSendFriendRequest, 'api')
+            ->delete(route('friend-request-response.destroy', ['delete']), [
+                'user_id' => $user->id,
+            ])
+            ->assertStatus(204);
+
+        $friendRequest = Friend::first();
+
+        $this->assertNull($friendRequest);
+        $response->assertNoContent();
+    }
+
+    /**
+     * @test
+     */
+    public function only_the_recipient_can_ignore_a_friend_request()
+    {
+        $this->actingAs($user = User::factory()->create(), 'api');
+        $anotherUser = User::factory()->create();
+        $this->post(route('friend-request.store'), [
+            'friend_id' => $anotherUser->id,
+        ])->assertStatus(200);
+
+        $response = $this->actingAs(User::factory()->create(), 'api')
+            ->delete(route('friend-request-response.destroy', ['delete']), [
+                'user_id' => $user->id,
+            ])
+            ->assertStatus(404);
+
+        $friendRequest = Friend::first();
+        $this->assertNull($friendRequest->confirmed_at);
+        $this->assertNull($friendRequest->status);
+        $response->assertJson([
+            'errors' => [
+                'status' => 404,
+                'title' => 'Friend Request Not Found',
+                'detail' => 'Unable to locate the friend request with the given information',
+            ],
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_id_is_required_for_ignoring_a_friend_request_responses()
+    {
+        $response = $this->actingAs(User::factory()->create(), 'api')
+            ->delete(route('friend-request-response.destroy', ['delete']), [
+                'user_id' => '',
+            ])
+            ->assertStatus(422);
+
+        $responseArray = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('user_id', $responseArray['errors']['meta']);
+    }
 }
