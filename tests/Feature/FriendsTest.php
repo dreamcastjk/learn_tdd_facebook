@@ -47,6 +47,29 @@ class FriendsTest extends TestCase
     /**
      * @test
      */
+    public function a_user_can_send_a_friend_request_only_once()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAs($user = User::factory()->create(), 'api');
+        $userThatSendFriendRequest = User::factory()->create();
+
+        $this->post(route('friend-request.store'), [
+            'friend_id' => $userThatSendFriendRequest->id,
+        ])->assertStatus(200);
+
+        $this->post(route('friend-request.store'), [
+            'friend_id' => $userThatSendFriendRequest->id,
+        ])->assertStatus(200);
+
+        $friendRequest = Friend::all();
+
+        $this->assertCount(1, $friendRequest);
+    }
+
+    /**
+     * @test
+     */
     public function only_valid_users_can_be_friend_requested()
     {
         $this->actingAs($user = User::factory()->create(), 'api');
