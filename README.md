@@ -17,6 +17,7 @@ Set your database connection params
 
 ```shell
 php artisan migrate:fresh --seed
+php artisan passport:keys
 php artisan key:generate
 ```
 
