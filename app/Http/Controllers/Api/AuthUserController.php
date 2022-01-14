@@ -10,6 +10,7 @@ class AuthUserController extends Controller
 {
     public function __invoke()
     {
+
         return new UserResource(auth()->user());
     }
 }
